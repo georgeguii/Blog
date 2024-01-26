@@ -28,5 +28,5 @@ public class User : Entity
   public string Cpf { get; private set; } = string.Empty;
 
   public DateTime CreatedAt { get; private set; } = DateTime.Now;
-  public DateTime LastUpdate { get; private set; } = DateTime.Now;
+  public DateTime? LastUpdate { get; private set; }
 }
