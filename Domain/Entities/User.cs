@@ -25,7 +25,7 @@ public class User : Entity
   public Password Password { get; private set; }
   public string Nickname { get; private set; } = string.Empty;
   public string Name { get; private set; } = string.Empty;
-  public string Cpf { get; private set; } = string.Empty;
+  public Cpf Cpf { get; private set; } = string.Empty;
 
   public DateTime CreatedAt { get; private set; } = DateTime.Now;
   public DateTime? LastUpdate { get; private set; }
