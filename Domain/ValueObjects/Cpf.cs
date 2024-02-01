@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Blog.Shared.Exceptions;
 
 namespace Blog.ValueObjects.Entities;
 
@@ -7,7 +8,7 @@ public sealed class Cpf
     public Cpf() { }
     public Cpf(string text)
     {
-        Text = IsValid(text) ? text.Trim() : throw new Exception("bla");
+        Text = IsValid(text) ? text.Trim() : throw new DomainException("CPF inválido");
     }
 
     [MaxLength(11)]
