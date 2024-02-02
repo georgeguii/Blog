@@ -1,6 +1,6 @@
 namespace Blog.Domain.Entities;
 
-public class Like
+public sealed class Like
 {
   public Like () { }
 

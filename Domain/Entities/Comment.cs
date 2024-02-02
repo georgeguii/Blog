@@ -3,7 +3,7 @@ using Blog.ValueObjects.Entities;
 
 namespace Blog.Domain.Entities;
 
-public class Comment : Entity
+public sealed class Comment : Entity
 {
   public Comment () { }
 
