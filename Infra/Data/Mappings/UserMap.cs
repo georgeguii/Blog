@@ -35,8 +35,12 @@ public class UserMap : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder.Property(x => x.Cpf)
-            .HasColumnType("varchar")
+            .HasColumnType("char")
             .HasMaxLength(11)
+            .IsRequired();
+
+        builder.Property(x => x.IsDisabled)
+            .HasColumnType("bit")
             .IsRequired();
 
         builder.Property(x => x.CreatedAt)
