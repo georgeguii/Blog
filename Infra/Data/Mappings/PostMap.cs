@@ -10,7 +10,8 @@ public class PostMap : IEntityTypeConfiguration<Post>
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property(p => p.Description)
+        builder.OwnsOne(p => p.Description)
+            .Property(p => p.Text)
             .HasColumnType("varchar")
             .HasMaxLength(256)
             .IsRequired();
@@ -26,7 +27,6 @@ public class PostMap : IEntityTypeConfiguration<Post>
         builder.HasOne(e => e.CreatedBy)
             .WithMany(c => c.MyPosts)
             .HasForeignKey(s => s.UserId)
-            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
     }
 }

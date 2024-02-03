@@ -11,7 +11,12 @@ public sealed class Like
   }
 
   public Guid UserId { get; private set; }
+  public User User { get; set; }
+  
   public Guid PostId { get; private set;}
+  public Post Post { get; set; }
 
   public DateTime CreatedAt { get; private set; } = DateTime.Now;
+  
+  
 }

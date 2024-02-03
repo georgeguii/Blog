@@ -20,5 +20,7 @@ public sealed class Post : Entity
     public User CreatedBy { get; private set; }
 
 
-    public ICollection<Comment> Comments { get; private set; }
+    public ICollection<Comment>? Comments { get; private set; } = new List<Comment>();
+    
+    public ICollection<Like>? Likes { get; private set; } = new List<Like>();
 }

@@ -13,5 +13,16 @@ public class LikeMap : IEntityTypeConfiguration<Like>
         builder.Property(x => x.CreatedAt)
             .HasColumnType("datetime")
             .IsRequired();
+        
+        builder.HasOne(l => l.User)
+            .WithMany(u => u.Likes)
+            .HasForeignKey(l => l.UserId)
+            .IsRequired();
+
+        builder.HasOne(l => l.Post)
+            .WithMany(p => p.Likes)
+            .HasForeignKey(l => l.PostId)
+            .OnDelete(DeleteBehavior.ClientCascade)
+            .IsRequired();
     }
 }

@@ -33,7 +33,10 @@ public sealed class User : Entity
     public DateTime CreatedAt { get; private set; } = DateTime.Now;
     public DateTime? LastUpdate { get; private set; }
 
-    public ICollection<Post> MyPosts { get; private set;}
+    public ICollection<Post>? MyPosts { get; private set;}  = new List<Post>();
 
-    public ICollection<Comment> MyComments { get; private set; }
+    public ICollection<Comment>? MyComments { get; private set; } = new List<Comment>();
+    
+    
+    public ICollection<Like>? Likes { get; private set; } = new List<Like>();
 }

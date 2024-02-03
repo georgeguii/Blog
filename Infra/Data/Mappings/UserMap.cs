@@ -10,16 +10,20 @@ public class UserMap : IEntityTypeConfiguration<User>
     {
         builder.HasKey(x => x.Id);
 
-        builder.HasIndex(x => x.Email).IsUnique();
+        builder.OwnsOne(x => x.Email).HasIndex(x => x.Address).IsUnique();
         builder.HasIndex(x => x.Nickname).IsUnique();
-        builder.HasIndex(x => x.Cpf).IsUnique();
+        builder.OwnsOne(x => x.Cpf).HasIndex(x => x.Text).IsUnique();
 
-        builder.Property(x => x.Email)
+        builder.OwnsOne(x => x.Email)
+            .Property(x => x.Address)
+            .HasColumnName("Email")
             .HasColumnType("varchar")
             .HasMaxLength(150)
             .IsRequired();
 
-        builder.Property(x => x.Password)
+        builder.OwnsOne(x => x.Password)
+            .Property(x => x.Hash)
+            .HasColumnName("Password")
             .HasColumnType("varchar")
             .HasMaxLength(256)
             .IsRequired();
@@ -34,7 +38,8 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasMaxLength(200)
             .IsRequired();
 
-        builder.Property(x => x.Cpf)
+        builder.OwnsOne(x => x.Cpf)
+            .Property(x => x.Text)
             .HasColumnType("char")
             .HasMaxLength(11)
             .IsRequired();

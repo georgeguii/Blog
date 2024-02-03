@@ -25,5 +25,6 @@ public sealed class Comment : Entity
   public Guid? CommentId { get; private set; }
   public Comment RelatedComment { get; private set; }
 
-  public ICollection<Comment> ChildrenComments { get; private set; }
+  public ICollection<Comment> ChildrenComments { get; private set; } = new List<Comment>();
+
 }

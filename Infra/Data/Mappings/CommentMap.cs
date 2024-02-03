@@ -10,7 +10,8 @@ public class CommentMap : IEntityTypeConfiguration<Comment>
     {
         builder.HasKey(x => x.Id);
 
-        builder.Property(p => p.Description)    
+        builder.OwnsOne(p => p.Description)
+            .Property(p => p.Text)
             .HasColumnType("varchar")
             .HasMaxLength(256)
             .IsRequired();
@@ -26,7 +27,7 @@ public class CommentMap : IEntityTypeConfiguration<Comment>
         builder.HasOne(e => e.CreatedBy)
             .WithMany(c => c.MyComments)
             .HasForeignKey(e => e.UserId)
-            .OnDelete(DeleteBehavior.Cascade)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .IsRequired();
 
         builder.HasOne(e => e.OnPost)
@@ -38,7 +39,7 @@ public class CommentMap : IEntityTypeConfiguration<Comment>
         builder.HasOne(e => e.RelatedComment)
             .WithMany(c => c.ChildrenComments)
             .HasForeignKey(e => e.CommentId)
-            .OnDelete(DeleteBehavior.Cascade)
+            .OnDelete(DeleteBehavior.ClientCascade)
             .IsRequired(false);
     }
 }
