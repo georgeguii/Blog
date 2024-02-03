@@ -25,6 +25,7 @@ public class PostMap : IEntityTypeConfiguration<Post>
 
         builder.HasOne(e => e.CreatedBy)
             .WithMany(c => c.MyPosts)
+            .HasForeignKey(s => s.UserId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
     }
