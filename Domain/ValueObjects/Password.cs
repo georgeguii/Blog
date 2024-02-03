@@ -12,17 +12,6 @@ public sealed class Password
   }
 
   public string? Hash { get; private set; }
-  public string? Code { get; private set; }
-  public DateTime? ExpireDate { get; private set; }
-  public DateTime? ActivateDate { get; private set; } = null;
-  public bool Active => ActivateDate != null && ExpireDate == null;
-
-  public void GenerateCode()
-  {
-    Code = Guid.NewGuid().ToString("N")[..8].ToUpper();
-    ExpireDate = DateTime.Now.AddMinutes(5);
-    ActivateDate = null;
-  }
 
   public bool Verify(string password)
     => Criptography.CompareHash(password, Hash!);

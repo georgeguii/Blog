@@ -11,7 +11,6 @@ public sealed class Cpf
         Text = IsValid(text) ? text.Trim() : throw new DomainException("CPF inválido");
     }
 
-    [MaxLength(11)]
     public string Text { get; private set; }
 
     public static implicit operator string(Cpf text) => text.ToString();

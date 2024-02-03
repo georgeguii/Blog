@@ -10,7 +10,6 @@ public sealed class Description
         Text = text.Trim();
     }
 
-    [MaxLength(256)]
     public string Text { get; private set; }
 
     public static implicit operator string(Description text) => text.ToString();
