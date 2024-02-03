@@ -34,4 +34,6 @@ public sealed class User : Entity
     public DateTime? LastUpdate { get; private set; }
 
     public ICollection<Post> MyPosts { get; private set;}
+
+    public ICollection<Comment> MyComments { get; private set; }
 }
