@@ -14,7 +14,7 @@ public class UserRepository
         _context = context;
     }
 
-    public async Task<ICollection<User>> GetMany(
+    public async Task<IEnumerable<object>> GetManyAsync(
         string? email = null,
         string? nickname = null,
         string? name = null,
@@ -43,6 +43,47 @@ public class UserRepository
             query = query.Skip((page.Value - 1) * pageSize.Value)
                 .Take(pageSize.Value);
         }
-        return await query.ToListAsync();
+
+        return await query.Select(x => new
+        {
+            x.Nickname,
+            x.Name
+        }).ToListAsync();
     }
+
+    public async Task<User?> GetOneAsync(int id) => 
+        await _context.Users.FindAsync(id);
+
+    public async Task CreateAsync(User user)
+    {
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> UpdateAsync(User user)
+    {
+        var updated = await _context
+        .Users
+        .Where(x => x.Id == user.Id)
+        .ExecuteUpdateAsync(x => x
+            .SetProperty(u => u.Name, user.Name)
+            .SetProperty(u => u.Nickname, user.Nickname)
+            .SetProperty(u => u.LastUpdate, user.LastUpdate));
+
+        return updated != 0;
+    }
+
+    public async Task<bool> DisableAsync(User user)
+    {
+        var updated = await _context
+        .Users
+        .Where(x => x.Id == user.Id)
+        .ExecuteUpdateAsync(x => x
+            .SetProperty(u => u.IsDisabled, user.IsDisabled)
+            .SetProperty(u => u.LastUpdate, user.LastUpdate));
+
+        return updated != 0;
+    }
+
+
 }

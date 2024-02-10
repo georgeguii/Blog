@@ -39,4 +39,18 @@ public sealed class User : Entity
     
     
     public ICollection<Like>? Likes { get; private set; } = new List<Like>();
+
+    public void Disable()
+    {
+        IsDisabled = true;
+        LastUpdate = DateTime.Now;
+    }
+
+    public void UpdateInfos(string? name = null, string? nickname = null)
+    {
+        if (name is not null) Name = name.Trim();
+        if (nickname is not null) nickname = nickname.Trim();
+
+        LastUpdate = DateTime.Now;
+    }
 }
