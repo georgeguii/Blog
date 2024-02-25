@@ -35,7 +35,6 @@ public class LikeRepository
     public async Task CreateAsync(Like like)
     {
         await _context.Likes.AddAsync(like);
-        await _context.SaveChangesAsync();
     }
 
     public async Task<bool> DeleteAsync(Like like)

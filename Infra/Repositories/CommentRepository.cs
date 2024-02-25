@@ -42,7 +42,6 @@ public class CommentRepository
     public async Task CreateAsync(Comment comment)
     {
         await _context.Comments.AddAsync(comment);
-        await _context.SaveChangesAsync();
     }
 
     public async Task<bool> UpdateAsync(Comment comment)

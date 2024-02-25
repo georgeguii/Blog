@@ -39,13 +39,12 @@ public class PostRepository
     public async Task<Post?> GetOneAsync(Guid id) =>
         await _context.Posts.FindAsync(id);
 
-    public async Task<int> CountComments(Guid id) =>
+    public async Task<int> CountCommentsAsync(Guid id) =>
         await _context.Posts.Where(x => x.Id == id).Select(x => x.Comments).CountAsync();
 
     public async Task CreateAsync(Post post)
     {
         await _context.Posts.AddAsync(post);
-        await _context.SaveChangesAsync();
     }
 
     public async Task<bool> UpdateAsync(Post post)
