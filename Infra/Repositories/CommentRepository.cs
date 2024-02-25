@@ -4,21 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infra.Repositories;
 
-public class PostRepository
+public class CommentRepository
 {
     private readonly BlogContext _context;
 
-    public PostRepository(BlogContext context)
+    public CommentRepository(BlogContext context)
     {
         _context = context;
     }
 
-
     public async Task<IEnumerable<object>> GetManyAsync(
-        int? page = null,
-        int? pageSize = null)
+    int? page = null,
+    int? pageSize = null)
     {
-        var query = _context.Posts.AsQueryable();
+        var query = _context.Comments.AsQueryable();
 
         if (page.HasValue && pageSize.HasValue && page > 0 && pageSize > 0)
         {
@@ -32,30 +31,28 @@ public class PostRepository
             x.Description,
             x.CreatedBy,
             x.CreatedAt,
-            x.LastUpdate
+            x.LastUpdate,
+            numberOfComments = x.ChildrenComments.Count(),
         }).ToListAsync();
     }
 
-    public async Task<Post?> GetOneAsync(Guid id) =>
-        await _context.Posts.FindAsync(id);
+    public async Task<Comment?> GetOneAsync(Guid id) =>
+        await _context.Comments.FindAsync(id);
 
-    public async Task<int> CountComments(Guid id) =>
-        await _context.Posts.Where(x => x.Id == id).Select(x => x.Comments).CountAsync();
-
-    public async Task CreateAsync(Post post)
+    public async Task CreateAsync(Comment comment)
     {
-        await _context.Posts.AddAsync(post);
+        await _context.Comments.AddAsync(comment);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> UpdateAsync(Post post)
+    public async Task<bool> UpdateAsync(Comment comment)
     {
         var updated = await _context
-            .Posts
-            .Where(x => x.Id == post.Id)
+            .Comments
+            .Where(x => x.Id == comment.Id)
             .ExecuteUpdateAsync(x => x
-                .SetProperty(p => p.Description, post.Description)
-                .SetProperty(p => p.LastUpdate, post.LastUpdate));
+                .SetProperty(p => p.Description, comment.Description)
+                .SetProperty(p => p.LastUpdate, comment.LastUpdate));
 
         return updated != 0;
     }
@@ -63,7 +60,7 @@ public class PostRepository
     public async Task<bool> DeleteAsync(Post post)
     {
         var deleted = await _context
-            .Posts
+            .Comments
             .Where(x => x.Id == post.Id)
             .ExecuteDeleteAsync();
 

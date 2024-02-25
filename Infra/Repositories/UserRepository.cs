@@ -51,7 +51,7 @@ public class UserRepository
         }).ToListAsync();
     }
 
-    public async Task<User?> GetOneAsync(int id) => 
+    public async Task<User?> GetOneAsync(Guid id) => 
         await _context.Users.FindAsync(id);
 
     public async Task CreateAsync(User user)
