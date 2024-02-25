@@ -1,11 +1,12 @@
 ﻿using Blog.Domain.Entities;
+using Blog.Domain.Interfaces.Repositories;
 using Blog.Infra.Data.Context;
 using Blog.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infra.Repositories;
 
-public class UserRepository
+public class UserRepository : IUserRepository
 {
     private readonly BlogContext _context;
     

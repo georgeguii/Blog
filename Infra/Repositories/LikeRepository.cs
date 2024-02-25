@@ -1,10 +1,11 @@
 ﻿using Blog.Domain.Entities;
+using Blog.Domain.Interfaces.Repositories;
 using Blog.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infra.Repositories;
 
-public class LikeRepository
+public class LikeRepository : ILikeRepository
 {
     private readonly BlogContext _context;
 

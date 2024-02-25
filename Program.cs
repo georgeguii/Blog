@@ -1,4 +1,7 @@
+using Blog.Domain.Interfaces.Repositories;
+using Blog.Infra.Caching;
 using Blog.Infra.Data.Context;
+using Blog.Infra.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
+
+builder.Services.AddScoped<ICachingService, CachingService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ILikeRepository, LikeRepository>();
 
 builder.Services.AddDbContextPool<BlogContext>(options =>
 {

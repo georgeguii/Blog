@@ -1,10 +1,11 @@
 ﻿using Blog.Domain.Entities;
+using Blog.Domain.Interfaces.Repositories;
 using Blog.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infra.Repositories;
 
-public class PostRepository
+public class PostRepository : IPostRepository
 {
     private readonly BlogContext _context;
 
