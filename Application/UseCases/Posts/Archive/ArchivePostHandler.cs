@@ -3,42 +3,33 @@ using Blog.Domain.Entities;
 using Blog.Domain.Interfaces;
 using Blog.Domain.Interfaces.Repositories;
 using System.Net;
+using Blog.Application.Response;
 
 namespace Blog.Application.UseCases.Posts.Archive;
 
-public class ArchivePostHandler : IArchivePostHandler
+public class ArchivePostHandler(IUnitOfWork unitOfWork, IPostRepository postRepository) : IArchivePostHandler
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IPostRepository _postRepository;
-
-    public ArchivePostHandler(IUnitOfWork unitOfWork, IPostRepository postRepository)
-    {
-        _unitOfWork = unitOfWork;
-        _postRepository = postRepository;
-    }
-
     public async Task<IResponse> Handle(ArchivePostRequest request, CancellationToken cancellationToken)
     {
-        var response = new Response<Post>();
-
-        var post = await _postRepository.GetOneAsync(request.PostId);
-
+        var post = await postRepository.GetOneAsync(request.PostId);
         if (post == null)
         {
-            response.StatusCode = HttpStatusCode.NotFound;
-            response.Message = "Post not found";
-            return response;
+            return new Response<Post>
+            {
+                StatusCode = HttpStatusCode.NotFound,
+                Message = "Post not found"
+            };
         }
 
         post.Archive();
 
-        await _postRepository.UpdateAsync(post);
+        await postRepository.UpdateAsync(post);
+        await unitOfWork.CommitAsync(cancellationToken);
 
-        await _unitOfWork.CommitAsync(cancellationToken);
-
-        response.StatusCode = HttpStatusCode.NoContent;
-        response.Message = "Post archived successfully";
-
-        return response;
+        return new Response<Post>
+        {
+            StatusCode = HttpStatusCode.NoContent,
+            Message = "Post archived successfully"
+        };
     }
 }
