@@ -4,5 +4,5 @@ namespace Blog.Application.Interfaces.Comment;
 
 public interface ICreateCommentHandler
 {
-    Task<IResponse> Handle( request, CancellationToken cancellationToken);
+    //Task<IResponse> Handle(CreateCommentRequest request, CancellationToken cancellationToken);
 }
