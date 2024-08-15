@@ -9,9 +9,9 @@ public class UnitOfWork : IUnitOfWork
     private IDbContextTransaction? _transaction;
     private readonly BlogContext _context;
 
-    public UnitOfWork(BlogContext ibgeContext)
+    public UnitOfWork(BlogContext context)
     {
-        _context = ibgeContext;
+        _context = context;
     }
 
     public void BeginTransaction()
@@ -19,7 +19,7 @@ public class UnitOfWork : IUnitOfWork
         _transaction = _context.Database.BeginTransaction();
     }
 
-    public async Task Commit(CancellationToken cancellationToken)
+    public async Task CommitAsync(CancellationToken cancellationToken)
     {
         await _context.SaveChangesAsync(cancellationToken);
         _transaction?.Commit();

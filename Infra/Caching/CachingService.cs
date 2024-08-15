@@ -1,14 +1,28 @@
-﻿namespace Blog.Infra.Caching;
+﻿using Microsoft.Extensions.Caching.Distributed;
+
+namespace Blog.Infra.Caching;
 
 public class CachingService : ICachingService
 {
-    public Task<string> GetCAsync(string key)
+    private readonly IDistributedCache _cache;
+
+    private readonly DistributedCacheEntryOptions _options;
+
+    public CachingService(IDistributedCache cache)
     {
-        throw new NotImplementedException();
+        _cache = cache;
+        _options = new DistributedCacheEntryOptions
+        {
+            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(3600),
+            SlidingExpiration = TimeSpan.FromSeconds(1200),
+        };
     }
 
-    public Task SetAsync(string key, string value)
+    public async Task<string?> GetAsync(string key, CancellationToken cancellationToken = default)
+        => await _cache.GetStringAsync(key, cancellationToken);
+
+    public async Task SetAsync(string key, string value)
     {
-        throw new NotImplementedException();
+        await _cache.SetStringAsync(key, value);
     }
 }
