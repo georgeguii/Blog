@@ -20,8 +20,8 @@ public sealed class Document
 
         (Text, Type) = sanitizedText.Length switch
         {
-            11 => IsCpf(sanitizedText) ? (text.Trim(), DocumentType.CPF) : throw new DomainException("CPF inválido"),
-            14 => IsCnpj(sanitizedText) ? (text.Trim(), DocumentType.CNPJ) : throw new DomainException("CNPJ inválido"),
+            11 => CpfValidator.IsValid(sanitizedText) ? (sanitizedText, DocumentType.CPF) : throw new DomainException($"{DocumentType.CPF} inválido"),
+            14 => CnpjValidator.IsValid(sanitizedText) ? (sanitizedText, DocumentType.CNPJ) : throw new DomainException($"{DocumentType.CNPJ} inválido"),
             _ => throw new DomainException("Documento inválido")
         };
     }
@@ -44,8 +44,11 @@ public sealed class Document
     {
         return Text.Trim();
     }
+}
 
-    private bool IsCpf(string cpf)
+internal static class CpfValidator
+{
+    public static bool IsValid(string cpf)
     {
         var position = 0;
         var totalDigit1 = 0;
@@ -98,37 +101,27 @@ public sealed class Document
 
         return dv2 == digit2;
     }
-
-    private static bool IsCnpj(string cnpj)
+}
+internal static class CnpjValidator
+{
+    public static bool IsValid(string cnpj)
     {
-        int[] multiplicador1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-        int[] multiplicador2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-        int soma;
-        int resto;
-        string digito;
-        string tempCnpj;
-        if (cnpj.Length != 14)
+        if (cnpj.Length != 14 || cnpj.Distinct().Count() == 1)
             return false;
-        tempCnpj = cnpj.Substring(0, 12);
-        soma = 0;
-        for (var i = 0; i < 12; i++)
-            soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
-        resto = soma % 11;
-        if (resto < 2)
-            resto = 0;
-        else
-            resto = 11 - resto;
-        digito = resto.ToString();
-        tempCnpj += digito;
-        soma = 0;
-        for (var i = 0; i < 13; i++)
-            soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
-        resto = soma % 11;
-        if (resto < 2)
-            resto = 0;
-        else
-            resto = 11 - resto;
-        digito += resto.ToString();
-        return cnpj.EndsWith(digito);
+
+        var multipliers1 = new[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+        var multipliers2 = new[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+
+        var digit1 = CalculateDigit(cnpj.Substring(0, 12), multipliers1);
+        var digit2 = CalculateDigit(cnpj.Substring(0, 12) + digit1, multipliers2);
+
+        return cnpj.EndsWith($"{digit1}{digit2}");
+    }
+
+    private static int CalculateDigit(string input, int[] multipliers)
+    {
+        var sum = input.Select((t, i) => (t - '0') * multipliers[i]).Sum();
+        var remainder = sum % 11;
+        return remainder < 2 ? 0 : 11 - remainder;
     }
 }
