@@ -5,20 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infra.Repositories;
 
-public class CommentRepository : ICommentRepository
+public class CommentRepository(BlogContext context) : ICommentRepository
 {
-    private readonly BlogContext _context;
-
-    public CommentRepository(BlogContext context)
+    public async Task<IEnumerable<Comment>> GetManyAsync(
+        int? page = null,
+        int? pageSize = null)
     {
-        _context = context;
-    }
-
-    public async Task<IEnumerable<object>> GetManyAsync(
-    int? page = null,
-    int? pageSize = null)
-    {
-        var query = _context.Comments.AsQueryable();
+        var query = context.Comments.AsQueryable();
 
         if (page.HasValue && pageSize.HasValue && page > 0 && pageSize > 0)
         {
@@ -26,28 +19,20 @@ public class CommentRepository : ICommentRepository
                 .Take(pageSize.Value);
         }
 
-        return await query.Select(x => new
-        {
-            x.Id,
-            x.Description,
-            x.CreatedBy,
-            x.CreatedAt,
-            x.LastUpdate,
-            numberOfComments = x.ChildrenComments.Count(),
-        }).ToListAsync();
+        return await query.ToListAsync();
     }
 
     public async Task<Comment?> GetOneAsync(Guid id) =>
-        await _context.Comments.FindAsync(id);
+        await context.Comments.FindAsync(id);
 
     public async Task CreateAsync(Comment comment)
     {
-        await _context.Comments.AddAsync(comment);
+        await context.Comments.AddAsync(comment);
     }
 
     public async Task<bool> UpdateAsync(Comment comment)
     {
-        var updated = await _context
+        var updated = await context
             .Comments
             .Where(x => x.Id == comment.Id)
             .ExecuteUpdateAsync(x => x
@@ -59,7 +44,7 @@ public class CommentRepository : ICommentRepository
 
     public async Task<bool> DeleteAsync(Post post)
     {
-        var deleted = await _context
+        var deleted = await context
             .Comments
             .Where(x => x.Id == post.Id)
             .ExecuteDeleteAsync();

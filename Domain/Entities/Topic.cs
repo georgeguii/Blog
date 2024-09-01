@@ -1,4 +1,4 @@
-﻿using Blog.ValueObjects.Entities;
+﻿using Blog.Domain.ValueObjects;
 
 namespace Blog.Domain.Entities;
 

@@ -1,6 +1,6 @@
 using Blog.Shared.Exceptions;
 
-namespace Blog.ValueObjects.Entities;
+namespace Blog.Domain.ValueObjects;
 
 public sealed class Document
 {

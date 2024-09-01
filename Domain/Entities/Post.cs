@@ -1,5 +1,5 @@
+using Blog.Domain.ValueObjects;
 using Blog.Shared.Entities;
-using Blog.ValueObjects.Entities;
 
 namespace Blog.Domain.Entities;
 
