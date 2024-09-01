@@ -29,38 +29,65 @@ public sealed class Document
 
     private bool IsCpf(string cpf)
     {
-        int[] multiplicador1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
-        int[] multiplicador2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
-        string tempCpf;
-        string digito;
-        int soma;
-        int resto;
-        cpf = cpf.Trim();
-        cpf = cpf.Replace(".", "").Replace("-", "");
-        if (cpf.Length != 11)
-            return false;
-        tempCpf = cpf.Substring(0, 9);
-        soma = 0;
+        var position = 0;
+        var totalDigit1 = 0;
+        var totalDigit2 = 0;
+        var dv1 = 0;
+        var dv2 = 0;
 
-        for (int i = 0; i < 9; i++)
-            soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
-        resto = soma % 11;
-        if (resto < 2)
-            resto = 0;
-        else
-            resto = 11 - resto;
-        digito = resto.ToString();
-        tempCpf += digito;
-        soma = 0;
-        for (int i = 0; i < 10; i++)
-            soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
-        resto = soma % 11;
-        if (resto < 2)
-            resto = 0;
-        else
-            resto = 11 - resto;
-        digito += resto.ToString();
-        return cpf.EndsWith(digito);
+        bool identicalDigits = true;
+        var lastDigit = -1;
+
+        foreach (var c in cpf)
+        {
+            if (!char.IsDigit(c)) continue;
+            
+            var digit = c - '0';
+            if (position != 0 && lastDigit != digit)
+            {
+                identicalDigits = false;
+            }
+
+            lastDigit = digit;
+            switch (position)
+            {
+                case < 9:
+                    totalDigit1 += digit * (10 - position);
+                    totalDigit2 += digit * (11 - position);
+                    break;
+                case 9:
+                    dv1 = digit;
+                    break;
+                case 10:
+                    dv2 = digit;
+                    break;
+            }
+
+            position++;
+        }
+
+        if (position > 11 || identicalDigits)
+        {
+            return false;
+        }
+
+        var digit1 = totalDigit1 % 11;
+        digit1 = digit1 < 2 
+            ? 0 
+            : 11 - digit1;
+
+        if (dv1 != digit1)
+        {
+            return false;
+        }
+
+        totalDigit2 += digit1 * 2;
+        var digit2 = totalDigit2 % 11;
+        digit2 = digit2 < 2 
+            ? 0 
+            : 11 - digit2;
+
+        return dv2 == digit2;
     }
 
 
