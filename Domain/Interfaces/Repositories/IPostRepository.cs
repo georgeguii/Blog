@@ -4,7 +4,7 @@ namespace Blog.Domain.Interfaces.Repositories;
 
 public interface IPostRepository
 {
-    Task<IEnumerable<object>> GetManyAsync(int? page = null, int? pageSize = null);
+    Task<IEnumerable<Post>> GetManyAsync(int? page = null, int? pageSize = null);
     Task<Post?> GetOneAsync(Guid id);
     Task<int> CountCommentsAsync(Guid id);
     Task CreateAsync(Post post);

@@ -10,9 +10,8 @@ public static class StringExtension
         var normalizedString = text.Normalize(NormalizationForm.FormD);
         var stringBuilder = new StringBuilder(capacity: normalizedString.Length);
 
-        for (int i = 0; i < normalizedString.Length; i++)
+        foreach (var c in normalizedString)
         {
-            char c = normalizedString[i];
             var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
             if (unicodeCategory != UnicodeCategory.NonSpacingMark)
             {

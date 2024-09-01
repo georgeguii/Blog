@@ -1,5 +1,6 @@
+using Blog.Domain.ValueObjects;
 using Blog.Shared.Entities;
-using Blog.ValueObjects.Entities;
+using Blog.Shared.Services;
 
 namespace Blog.Domain.Entities;
 
@@ -20,6 +21,7 @@ public sealed class User : Entity
         Password = password;
         Nickname = nickname.Trim();
         Name = name.Trim();
+        NormalizedName = name.RemoveDiacritics().Trim();
         Document = cpf.Trim();
         IsDisabled = false;
     }
@@ -28,6 +30,7 @@ public sealed class User : Entity
     public Password Password { get; private set; }
     public string Nickname { get; private set; } = string.Empty;
     public string Name { get; private set; } = string.Empty;
+    public string NormalizedName { get; private set; } = string.Empty;
     public Document Document { get; private set; } = string.Empty;
 
     public bool IsDisabled { get; private set; } = false;
