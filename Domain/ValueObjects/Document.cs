@@ -2,22 +2,30 @@ using Blog.Shared.Exceptions;
 
 namespace Blog.Domain.ValueObjects;
 
+public enum DocumentType
+{
+    CPF,
+    CNPJ
+}
+
 public sealed class Document
 {
+    public DocumentType Type { get; }
+    
     public Document()
     {
     }
 
     public Document(string text)
     {
-        if (text.Length.Equals(11))
+        var sanitizedText = string.Concat(text.Where(char.IsDigit)).Trim();
+        
+        (Text, Type) = sanitizedText.Length switch
         {
-            Text = IsCpf(text) ? text.Trim() : throw new DomainException("CPF inválido");
-        }
-        else
-        {
-            Text = IsCnpj(text) ? text.Trim() : throw new DomainException("CNPJ inválido");
-        }
+            11 => IsCpf(sanitizedText) ? (text.Trim(), DocumentType.CPF) : throw new DomainException("CPF inválido"),
+            14 => IsCnpj(sanitizedText) ? (text.Trim(), DocumentType.CNPJ) : throw new DomainException("CNPJ inválido"),
+            _ => throw new DomainException("Documento inválido")
+        };
     }
 
     public string Text { get; }
@@ -90,7 +98,6 @@ public sealed class Document
         return dv2 == digit2;
     }
 
-
     private static bool IsCnpj(string cnpj)
     {
         int[] multiplicador1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
@@ -99,8 +106,6 @@ public sealed class Document
         int resto;
         string digito;
         string tempCnpj;
-        cnpj = cnpj.Trim();
-        cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
         if (cnpj.Length != 14)
             return false;
         tempCnpj = cnpj.Substring(0, 12);
