@@ -12,7 +12,7 @@ public class UserMap : IEntityTypeConfiguration<User>
 
         builder.OwnsOne(x => x.Email).HasIndex(x => x.Address).IsUnique();
         builder.HasIndex(x => x.Nickname).IsUnique();
-        builder.OwnsOne(x => x.Cpf).HasIndex(x => x.Text).IsUnique();
+        builder.OwnsOne(x => x.Document).HasIndex(x => x.Text).IsUnique();
 
         builder.OwnsOne(x => x.Email)
             .Property(x => x.Address)
@@ -38,7 +38,7 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasMaxLength(200)
             .IsRequired();
 
-        builder.OwnsOne(x => x.Cpf)
+        builder.OwnsOne(x => x.Document)
             .Property(x => x.Text)
             .HasColumnType("char")
             .HasMaxLength(11)

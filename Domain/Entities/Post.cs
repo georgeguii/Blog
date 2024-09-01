@@ -5,11 +5,13 @@ namespace Blog.Domain.Entities;
 
 public sealed class Post : Entity
 {
-    public Post () { }
-
-    public Post (string description)
+    public Post()
     {
-    Description = description;
+    }
+
+    public Post(string description)
+    {
+        Description = description;
     }
 
     public Description Description { get; private set; } = string.Empty;
@@ -21,8 +23,11 @@ public sealed class Post : Entity
     public User CreatedBy { get; private set; }
 
 
+    public int CommentCount { get; private set; }
     public ICollection<Comment>? Comments { get; private set; } = new List<Comment>();
-    
+
+
+    public int LikesCount { get; private set; }
     public ICollection<Like>? Likes { get; private set; } = new List<Like>();
 
     public void UpdateDescription(string description)
@@ -49,15 +54,15 @@ public sealed class Post : Entity
         {
             Comments = new List<Comment>();
         }
+
+        CommentCount += 1;
         Comments.Add(comment);
     }
 
     public void AddLike(Like like)
     {
-        if (Likes == null)
-        {
-            Likes = new List<Like>();
-        }
+        Likes ??= new List<Like>();
+        LikesCount += 1;
         Likes.Add(like);
     }
 
@@ -65,8 +70,10 @@ public sealed class Post : Entity
     {
         if (Likes == null)
         {
-            Likes = new List<Like>();
+            throw new InvalidOperationException("Não é possível remover uma curtida que não existe");
         }
+
+        LikesCount -= 1;
         Likes.Remove(like);
     }
 }

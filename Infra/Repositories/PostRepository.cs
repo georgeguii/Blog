@@ -33,7 +33,9 @@ public class PostRepository : IPostRepository
             x.Description,
             x.CreatedBy,
             x.CreatedAt,
-            x.LastUpdate
+            x.LastUpdate,
+            x.CommentCount,
+            x.LikesCount
         }).ToListAsync();
     }
 
