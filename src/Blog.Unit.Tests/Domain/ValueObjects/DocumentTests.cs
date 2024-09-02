@@ -65,4 +65,29 @@ public class DocumentTests
         action.Should().Throw<DomainException>()
             .WithMessage($"{DocumentType.CNPJ} inválido");
     }
+    
+    [Theory]
+    [MemberData(nameof(DocumentTestData.ValidCnpjCases), MemberType = typeof(DocumentTestData))]
+    public void ImplicitConversion_FromDocumentToString_ShouldReturnExpectedString(string input, string expectedText)
+    {
+        // Arrange
+        var document = new Document(input);
+
+        // Act
+        string result = document;
+
+        // Assert
+        result.Should().Be(expectedText);
+    }
+    
+    [Theory]
+    [MemberData(nameof(DocumentTestData.ValidCnpjCases), MemberType = typeof(DocumentTestData))]
+    public void ImplicitConversion_FromStringToDocument_ShouldReturnDocumentWithExpectedText(string input, string expectedText)
+    {
+        // Arrange & Act
+        var document = (Document)input;
+
+        // Assert
+        document.Text.Should().Be(expectedText);
+    }
 }
