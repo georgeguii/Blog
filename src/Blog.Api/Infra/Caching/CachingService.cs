@@ -1,30 +1,32 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using System.Text.Json;
+using Blog.Api.Domain.Interfaces;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Blog.Api.Infra.Caching;
 
-public class CachingService : ICachingService
+public class CachingService<T>(IDistributedCache cache, int ttl, int idleTime) : ICachingService<T>
 {
-    private readonly IDistributedCache _cache;
-
-    private readonly DistributedCacheEntryOptions _options;
-
-    public CachingService(IDistributedCache cache)
+    private readonly DistributedCacheEntryOptions _options = new()
     {
-        _cache = cache;
-        _options = new DistributedCacheEntryOptions
+        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(ttl),
+        SlidingExpiration = TimeSpan.FromSeconds(idleTime)
+    };
+
+    public async Task<T?> GetAsync(string key, CancellationToken cancellationToken = default)
+    {
+        var cachedData = await cache.GetStringAsync(key, cancellationToken);
+
+        if (string.IsNullOrEmpty(cachedData))
         {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(3600),
-            SlidingExpiration = TimeSpan.FromSeconds(1200)
-        };
+            return default;
+        }
+
+        return JsonSerializer.Deserialize<T>(cachedData);
     }
 
-    public async Task<string?> GetAsync(string key, CancellationToken cancellationToken = default)
+    public async Task SetAsync(string key, T value, CancellationToken cancellationToken = default)
     {
-        return await _cache.GetStringAsync(key, cancellationToken);
-    }
-
-    public async Task SetAsync(string key, string value)
-    {
-        await _cache.SetStringAsync(key, value);
+        var valueSerialized = JsonSerializer.Serialize(value);
+        await cache.SetStringAsync(key, valueSerialized, _options, cancellationToken);
     }
 }
