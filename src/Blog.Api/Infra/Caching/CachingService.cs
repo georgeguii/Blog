@@ -4,12 +4,12 @@ using Microsoft.Extensions.Caching.Distributed;
 
 namespace Blog.Api.Infra.Caching;
 
-public class CachingService<T>(IDistributedCache cache, int ttl, int idleTime) : ICachingService<T>
+public class CachingService<T>(IDistributedCache cache, TimeSpan ttl, TimeSpan idleTime) : ICachingService<T>
 {
     private readonly DistributedCacheEntryOptions _options = new()
     {
-        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(ttl),
-        SlidingExpiration = TimeSpan.FromSeconds(idleTime)
+        AbsoluteExpirationRelativeToNow = ttl,
+        SlidingExpiration = idleTime
     };
 
     public async Task<T?> GetAsync(string key, CancellationToken cancellationToken = default)
