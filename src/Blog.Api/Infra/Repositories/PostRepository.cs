@@ -30,9 +30,9 @@ public class PostRepository(BlogContext context) : IPostRepository
         return await context.Posts.Where(x => x.Id == id).Select(x => x.Comments).CountAsync();
     }
 
-    public async Task CreateAsync(Post post)
+    public async Task CreateAsync(Post post, CancellationToken cancellationToken = default)
     {
-        await context.Posts.AddAsync(post);
+        await context.Posts.AddAsync(post, cancellationToken);
     }
 
     public async Task<bool> UpdateAsync(Post post)

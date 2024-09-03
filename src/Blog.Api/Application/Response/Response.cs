@@ -14,6 +14,13 @@ public class Response<TData> : IResponse where TData : class
         StatusCode = statusCode;
         Data = data;
     }
+    
+    public Response(HttpStatusCode statusCode, string message, Dictionary<string, string> errors)
+    {
+        StatusCode = statusCode;
+        Message = message;
+        Errors = errors;
+    }
 
     public Response(HttpStatusCode statusCode, string message, TData data)
     {
