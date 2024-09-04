@@ -9,9 +9,12 @@ public sealed class Post : Entity
     {
     }
 
-    public Post(string description)
+    public Post(string description, Guid userId)
     {
+        UserId = userId;
         Description = description;
+        CreatedAt = DateTime.UtcNow;
+        Archived = false;
     }
 
     public Description Description { get; private set; } = string.Empty;

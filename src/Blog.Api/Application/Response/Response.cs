@@ -14,6 +14,13 @@ public class Response<TData> : IResponse where TData : class
         StatusCode = statusCode;
         Data = data;
     }
+    
+    public Response(HttpStatusCode statusCode, string message, IDictionary<string, string[]> errors)
+    {
+        StatusCode = statusCode;
+        Message = message;
+        Errors = errors;
+    }
 
     public Response(HttpStatusCode statusCode, string message, TData data)
     {
@@ -25,10 +32,5 @@ public class Response<TData> : IResponse where TData : class
     public TData? Data { get; set; }
     public HttpStatusCode StatusCode { get; set; }
     public string Message { get; set; }
-    public Dictionary<string, string> Errors { get; set; } = new();
-
-    public void AddError(string key, string value)
-    {
-        Errors.Add(key, value);
-    }
+    public IDictionary<string, string[]> Errors { get; set; } = new Dictionary<string, string[]>();
 }
