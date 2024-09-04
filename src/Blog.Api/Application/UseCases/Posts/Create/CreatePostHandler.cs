@@ -27,9 +27,7 @@ public class CreatePostHandler : ICreatePostHandler
             var response = new Response<string>(
                 HttpStatusCode.BadRequest,
                 "Requisição inválida",
-                requestValidated.Errors
-                    .GroupBy(error => error.PropertyName)
-                    .ToDictionary(group => group.Key, group => group.First().ErrorMessage));
+                requestValidated.ToDictionary());
             return response;
         }
 

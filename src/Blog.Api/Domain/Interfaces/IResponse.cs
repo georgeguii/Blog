@@ -6,5 +6,5 @@ public interface IResponse
 {
     HttpStatusCode StatusCode { get; set; }
     string Message { get; set; }
-    Dictionary<string, string> Errors { get; set; }
+    IDictionary<string, string[]> Errors { get; set; }
 }
