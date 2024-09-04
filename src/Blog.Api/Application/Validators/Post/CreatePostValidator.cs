@@ -8,7 +8,7 @@ public class CreatePostValidator : AbstractValidator<CreatePostRequest>
     public CreatePostValidator()
     {
         RuleFor(p => p.UserId)
-            .NotNull().WithMessage("A userId é obrigatório.")
+            .NotNull().WithMessage("O userId é obrigatório.")
             .NotEmpty().WithMessage("O userId não pode ser vazio.");
         
         RuleFor(p => p.Description)

@@ -22,7 +22,7 @@ public class Response<TData> : IResponse where TData : class
         Errors = errors;
     }
 
-    public Response(HttpStatusCode statusCode, string message, TData data)
+    public Response(HttpStatusCode statusCode, TData data, string message)
     {
         StatusCode = statusCode;
         Message = message;
