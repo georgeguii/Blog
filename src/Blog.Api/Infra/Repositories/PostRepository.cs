@@ -20,9 +20,9 @@ public class PostRepository(BlogContext context) : IPostRepository
         return await query.ToListAsync();
     }
 
-    public async Task<Post?> GetOneAsync(Guid id)
+    public async Task<Post?> GetOneAsync(Guid postId, Guid userId)
     {
-        return await context.Posts.FindAsync(id);
+        return await context.Posts.FirstOrDefaultAsync(p => p.Id == postId && p.UserId == userId);
     }
 
     public async Task<int> CountCommentsAsync(Guid id)
