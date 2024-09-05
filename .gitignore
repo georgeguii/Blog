@@ -272,6 +272,9 @@ ServiceFabricBackup/
 *.ldf
 *.ndf
 
+# Ignore SQL Server data directory
+data/sqlserver/
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout
