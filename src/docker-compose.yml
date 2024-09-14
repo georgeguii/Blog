@@ -1,0 +1,29 @@
+services:
+  blog.api:
+    container_name: blog.api
+    image: ${DOCKER_REGISTRY-}blogapi
+    build:
+      context: .
+      dockerfile: Blog.Api/Dockerfile
+    ports:
+    - "5000:5000"
+    - "5001:5001"
+
+  blog.database:
+    container_name: blog.database
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./data/sqlserver:/var/opt/mssql/data
+    user: root
+  
+  blog.cache:
+    container_name: blog.cache
+    image: redis:latest
+    restart: always
+    ports:
+       - "6739:6739"

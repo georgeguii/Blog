@@ -3,13 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Api", "Blog.Api\Blog.Api.csproj", "{24130A2B-F769-443C-8B5C-D2D8554F39C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Api", "Blog.Api\Blog.Api.csproj", "{24130A2B-F769-443C-8B5C-D2D8554F39C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{CCAF13C9-FC0F-4F94-B8D7-BEA1A474A12D}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{407F976C-A241-4279-8E24-8E2C31A10346}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Unit.Tests", "Blog.Unit.Tests\Blog.Unit.Tests.csproj", "{C29B0C3D-8575-4962-896D-6C851CE89F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Unit.Tests", "Blog.Unit.Tests\Blog.Unit.Tests.csproj", "{C29B0C3D-8575-4962-896D-6C851CE89F94}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{51537369-AA11-4D2B-9191-A0D266F48E69}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6AB47208-D009-4F65-8CBA-EBCC9AD6A4AA}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,15 +35,19 @@ Global
 		{C29B0C3D-8575-4962-896D-6C851CE89F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C29B0C3D-8575-4962-896D-6C851CE89F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C29B0C3D-8575-4962-896D-6C851CE89F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51537369-AA11-4D2B-9191-A0D266F48E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51537369-AA11-4D2B-9191-A0D266F48E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51537369-AA11-4D2B-9191-A0D266F48E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51537369-AA11-4D2B-9191-A0D266F48E69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B894138A-ADDC-4CEB-920D-8FCECE645A13}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24130A2B-F769-443C-8B5C-D2D8554F39C7} = {CCAF13C9-FC0F-4F94-B8D7-BEA1A474A12D}
 		{C29B0C3D-8575-4962-896D-6C851CE89F94} = {407F976C-A241-4279-8E24-8E2C31A10346}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B894138A-ADDC-4CEB-920D-8FCECE645A13}
 	EndGlobalSection
 EndGlobal
