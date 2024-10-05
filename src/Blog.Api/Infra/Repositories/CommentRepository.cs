@@ -20,14 +20,14 @@ public class CommentRepository(BlogContext context) : ICommentRepository
         return await query.ToListAsync();
     }
 
-    public async Task<Comment?> GetOneAsync(Guid id)
+    public async Task<Comment?> GetOneAsync(Guid commentId, Guid userId)
     {
-        return await context.Comments.FindAsync(id);
+        return await context.Comments.FirstOrDefaultAsync(c => c.CommentId == commentId&& c.UserId == userId);
     }
 
-    public async Task CreateAsync(Comment comment)
+    public async Task CreateAsync(Comment comment, CancellationToken cancellationToken)
     {
-        await context.Comments.AddAsync(comment);
+        await context.Comments.AddAsync(comment, cancellationToken);
     }
 
     public async Task<bool> UpdateAsync(Comment comment)
@@ -42,11 +42,11 @@ public class CommentRepository(BlogContext context) : ICommentRepository
         return updated != 0;
     }
 
-    public async Task<bool> DeleteAsync(Post post)
+    public async Task<bool> DeleteAsync(Comment comment)
     {
         var deleted = await context
             .Comments
-            .Where(x => x.Id == post.Id)
+            .Where(x => x.Id == comment.Id)
             .ExecuteDeleteAsync();
 
         return deleted != 0;

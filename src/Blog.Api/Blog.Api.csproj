@@ -31,12 +31,6 @@
     <ItemGroup>
         <Folder Include="Application\Interfaces\Like\" />
         <Folder Include="Application\Interfaces\User\" />
-        <Folder Include="Application\UseCases\Comment\" />
-        <Folder Include="Application\UseCases\Like\" />
-        <Folder Include="Application\UseCases\User\" />
-        <Folder Include="Application\Validators\Comment\" />
-        <Folder Include="Application\Validators\Like\" />
-        <Folder Include="Application\Validators\User\" />
     </ItemGroup>
 
 </Project>
