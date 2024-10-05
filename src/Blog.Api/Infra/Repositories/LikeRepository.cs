@@ -7,6 +7,11 @@ namespace Blog.Api.Infra.Repositories;
 
 public class LikeRepository(BlogContext context) : ILikeRepository
 {
+    public async Task<Like?> GetOneAsync(Guid userId, Guid postId)
+    {
+        return await context.Likes.FirstOrDefaultAsync(x => x.UserId == userId && x.PostId == postId);
+    }
+
     public async Task<IEnumerable<Like>> GetManyAsync(
         int? page = null,
         int? pageSize = null)
