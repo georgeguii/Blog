@@ -8,6 +8,21 @@ namespace Blog.Api.Infra.Repositories;
 
 public class UserRepository(BlogContext context) : IUserRepository
 {
+    public async Task<bool> CheckIfEmailIsAlreadyRegistered(string email)
+    {
+        return await context.Users.AnyAsync(x => x.Email == email);
+    }
+
+    public async Task<bool> CheckIfDocumentIsAlreadyRegistered(string document)
+    {
+        return await context.Users.AnyAsync(x => x.Document == document);
+    }
+
+    public async Task<bool> CheckIfNicknameIsAlreadyRegistered(string nickname)
+    {
+        return await context.Users.AnyAsync(x => x.Nickname == nickname);
+    }
+
     public async Task<IEnumerable<User>> GetManyAsync(
         string? email = null,
         string? nickname = null,
@@ -38,6 +53,11 @@ public class UserRepository(BlogContext context) : IUserRepository
         return await context.Users.FindAsync(id);
     }
 
+    public async Task<User?> GetOneAsync(string nickname)
+    {
+        return await context.Users.FirstOrDefaultAsync(u => u.Nickname == nickname);
+    }
+    
     public async Task CreateAsync(User user)
     {
         await context.Users.AddAsync(user);

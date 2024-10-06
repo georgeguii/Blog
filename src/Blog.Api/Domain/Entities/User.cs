@@ -11,7 +11,7 @@ public sealed class User : Entity
     }
 
     public User(
-        Email email,
+        string email,
         Password password,
         string nickname,
         string name,
@@ -23,6 +23,7 @@ public sealed class User : Entity
         Name = name.Trim();
         NormalizedName = name.RemoveDiacritics().Trim();
         Document = cpf.Trim();
+        CreatedAt = DateTime.Now;
         IsDisabled = false;
     }
 

@@ -5,6 +5,8 @@ namespace Blog.Api.Domain.ValueObjects;
 
 public sealed class Password
 {
+    public string? Hash { get; private set; }
+
     public Password()
     {
     }
@@ -13,9 +15,7 @@ public sealed class Password
     {
         Hash = hash.Trim().Encrypt();
     }
-
-    public string? Hash { get; private set; }
-
+    
     public bool Verify(string password)
     {
         return Criptography.CompareHash(password, Hash!);
