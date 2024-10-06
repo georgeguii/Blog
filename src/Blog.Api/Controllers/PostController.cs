@@ -139,9 +139,8 @@ public class PostController(
 
         return response.StatusCode switch
         {
-            HttpStatusCode.Created => Ok(response),
-            HttpStatusCode.BadRequest => BadRequest(response),
-            HttpStatusCode.Conflict => Conflict(response),
+            // Teste para deixar generico
+            HttpStatusCode.NoContent => Ok(),
             _ => StatusCode((int)response.StatusCode, response)
         };
     }
@@ -152,7 +151,7 @@ public class PostController(
         CancellationToken cancellationToken)
     {
         request.CommentId = commentId;
-        request.UserId = Guid.NewGuid(); // Assumindo que você tem um UserId
+        request.UserId = Guid.NewGuid();
 
         var response = await updateCommentHandler.Handle(request, cancellationToken);
 

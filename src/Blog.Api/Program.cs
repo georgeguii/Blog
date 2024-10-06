@@ -11,6 +11,8 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddUserSecrets<Program>();
 }
 
+builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
@@ -39,10 +41,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.ApplyMigrations();
+    //app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();
 
 app.UseHealthChecks("/health");
+app.MapControllers();
 app.Run();
