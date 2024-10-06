@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.Posts;
 
 public interface ICreatePostHandler
 {
-    Task<IResponse> Handle(CreatePostRequest request, CancellationToken cancellationToken);
+    Task<IResponse<CreatePostResponse>> Handle(CreatePostRequest request, CancellationToken cancellationToken);
 }

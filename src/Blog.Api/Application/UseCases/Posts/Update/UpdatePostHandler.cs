@@ -8,7 +8,7 @@ namespace Blog.Api.Application.UseCases.Posts.Update;
 
 public class UpdatePostHandler(IPostRepository postRepository, IUnitOfWork unitOfWork) : IUpdatePostHandler
 {
-    public async Task<IResponse> Handle(UpdatePostRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(UpdatePostRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -24,7 +24,7 @@ public class UpdatePostHandler(IPostRepository postRepository, IUnitOfWork unitO
         return await UpdatePost(request, cancellationToken);
     }
     
-    private async Task<IResponse> UpdatePost(UpdatePostRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> UpdatePost(UpdatePostRequest request, CancellationToken cancellationToken)
     {
         try
         {

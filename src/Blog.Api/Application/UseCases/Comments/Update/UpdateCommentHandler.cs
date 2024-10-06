@@ -8,7 +8,7 @@ namespace Blog.Api.Application.UseCases.Comments.Update;
 
 public class UpdateCommentHandler(ICommentRepository commentRepository, IUnitOfWork unitOfWork) : IUpdateCommentHandler
 {
-    public async Task<IResponse> Handle(UpdateCommentRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(UpdateCommentRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -24,7 +24,7 @@ public class UpdateCommentHandler(ICommentRepository commentRepository, IUnitOfW
         return await UpdateComment(request, cancellationToken);
     }
     
-    private async Task<IResponse> UpdateComment(UpdateCommentRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> UpdateComment(UpdateCommentRequest request, CancellationToken cancellationToken)
     {
         try
         {

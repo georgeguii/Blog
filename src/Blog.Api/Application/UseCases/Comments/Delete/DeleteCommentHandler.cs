@@ -8,7 +8,7 @@ namespace Blog.Api.Application.UseCases.Comments.Delete;
 
 public class DeleteCommentHandler(IUnitOfWork unitOfWork, ICommentRepository repository) : IDeleteCommentHandler
 {
-    public async Task<IResponse> Handle(DeleteCommentRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(DeleteCommentRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -24,7 +24,7 @@ public class DeleteCommentHandler(IUnitOfWork unitOfWork, ICommentRepository rep
         return await DeleteComment(request, cancellationToken);
     }
     
-    private async Task<IResponse> DeleteComment(DeleteCommentRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> DeleteComment(DeleteCommentRequest request, CancellationToken cancellationToken)
     {
         try
         {

@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.Comments;
 
 public interface IDeleteCommentHandler
 {
-    Task<IResponse> Handle(DeleteCommentRequest request, CancellationToken cancellationToken);
+    Task<IResponse<string>> Handle(DeleteCommentRequest request, CancellationToken cancellationToken);
 }

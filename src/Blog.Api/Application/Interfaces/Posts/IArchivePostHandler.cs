@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.Posts;
 
 public interface IArchivePostHandler
 {
-    Task<IResponse> Handle(ArchivePostRequest request, CancellationToken cancellationToken);
+    Task<IResponse<string>> Handle(ArchivePostRequest request, CancellationToken cancellationToken);
 }

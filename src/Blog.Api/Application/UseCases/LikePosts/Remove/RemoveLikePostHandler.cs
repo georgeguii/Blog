@@ -8,7 +8,7 @@ namespace Blog.Api.Application.UseCases.LikePosts.Remove;
 
 public class RemoveLikePostHandler(IUnitOfWork unitOfWork, ILikeRepository repository) : IRemoveLikePostHandler
 {
-    public async Task<IResponse> Handle(RemoveLikePostRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(RemoveLikePostRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -24,7 +24,7 @@ public class RemoveLikePostHandler(IUnitOfWork unitOfWork, ILikeRepository repos
         return await RemoveLike(request, cancellationToken);
     }
 
-    private async Task<IResponse> RemoveLike(RemoveLikePostRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> RemoveLike(RemoveLikePostRequest request, CancellationToken cancellationToken)
     {
         try
         {

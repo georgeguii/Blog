@@ -8,7 +8,7 @@ namespace Blog.Api.Application.UseCases.Users.UpdateInfos;
 
 public class UpdateUserHandler(IUnitOfWork unitOfWork, IUserRepository repository) : IUpdateInfosUserHandler
 {
-    public async Task<IResponse> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(UpdateUserRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -23,7 +23,7 @@ public class UpdateUserHandler(IUnitOfWork unitOfWork, IUserRepository repositor
         return await UpdateUserInfos(request, cancellationToken);
     }
 
-    private async Task<IResponse> UpdateUserInfos(UpdateUserRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> UpdateUserInfos(UpdateUserRequest request, CancellationToken cancellationToken)
     {
         try
         {

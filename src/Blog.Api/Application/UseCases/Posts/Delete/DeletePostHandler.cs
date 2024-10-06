@@ -8,7 +8,7 @@ namespace Blog.Api.Application.UseCases.Posts.Delete;
 
 public class DeletePostHandler(IUnitOfWork unitOfWork, IPostRepository repository) : IDeletePostHandler
 {
-    public async Task<IResponse> Handle(DeletePostRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(DeletePostRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -24,7 +24,7 @@ public class DeletePostHandler(IUnitOfWork unitOfWork, IPostRepository repositor
         return await DeletePost(request, cancellationToken);
     }
     
-    private async Task<IResponse> DeletePost(DeletePostRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> DeletePost(DeletePostRequest request, CancellationToken cancellationToken)
     {
         try
         {

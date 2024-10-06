@@ -10,13 +10,13 @@ namespace Blog.Api.Application.UseCases.Users.Create;
 
 public class CreateUserHandler(IUnitOfWork unitOfWork, IUserRepository repository) : ICreateUserHandler
 {
-    public async Task<IResponse> Handle(CreateUserRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<CreateUserResponse>> Handle(CreateUserRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
         if (!requestValidated.IsValid)
         {
-            return new Response<string>(
+            return new Response<CreateUserResponse>(
                 HttpStatusCode.BadRequest,
                 "Requisição inválida",
                 requestValidated.ToDictionary());
@@ -30,21 +30,21 @@ public class CreateUserHandler(IUnitOfWork unitOfWork, IUserRepository repositor
         return await CreateUser(request, cancellationToken);
     }
 
-    private async Task<Response<string>?> ValidateUser(CreateUserRequest request)
+    private async Task<Response<CreateUserResponse>?> ValidateUser(CreateUserRequest request)
     {
-        if (await repository.CheckIfEmailIsAlreadyRegistered(request.Email))
+        var checks = new Dictionary<Func<Task<bool>>, string>
         {
-            return new Response<string>(HttpStatusCode.Conflict, null, "Email já está em uso.");
-        }
+            { () => repository.CheckIfEmailIsAlreadyRegistered(request.Email), "Email já está em uso." },
+            { () => repository.CheckIfNicknameIsAlreadyRegistered(request.Nickname), "Nickname já está em uso." },
+            { () => repository.CheckIfDocumentIsAlreadyRegistered(request.Document), "Documento já cadastrado." }
+        };
 
-        if (await repository.CheckIfNicknameIsAlreadyRegistered(request.Nickname))
+        foreach (var check in checks)
         {
-            return new Response<string>(HttpStatusCode.Conflict, null, "Nickname já está em uso.");
-        }
-
-        if (await repository.CheckIfDocumentIsAlreadyRegistered(request.Document))
-        {
-            return new Response<string>(HttpStatusCode.Conflict, null, "Documento já cadastrado.");
+            if (await check.Key())
+            {
+                return new Response<CreateUserResponse>(HttpStatusCode.Conflict, null, check.Value);
+            }
         }
 
         return null;

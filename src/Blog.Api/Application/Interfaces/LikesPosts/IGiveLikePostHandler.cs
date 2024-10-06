@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.LikesPosts;
 
 public interface IGiveLikePostHandler
 {
-    Task<IResponse> Handle(GiveLikePostRequest request, CancellationToken cancellationToken);
+    Task<IResponse<string>> Handle(GiveLikePostRequest request, CancellationToken cancellationToken);
 }

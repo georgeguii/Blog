@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.Posts;
 
 public interface IDeletePostHandler
 {
-    Task<IResponse> Handle(DeletePostRequest request, CancellationToken cancellationToken);
+    Task<IResponse<string>> Handle(DeletePostRequest request, CancellationToken cancellationToken);
 }

@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.Users;
 
 public interface ICreateUserHandler
 {
-    Task<IResponse> Handle(CreateUserRequest request, CancellationToken cancellationToken);
+    Task<IResponse<CreateUserResponse>> Handle(CreateUserRequest request, CancellationToken cancellationToken);
 }

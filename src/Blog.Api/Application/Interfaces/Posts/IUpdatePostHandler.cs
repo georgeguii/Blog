@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.Posts;
 
 public interface IUpdatePostHandler
 {
-    Task<IResponse> Handle(UpdatePostRequest request, CancellationToken cancellationToken);
+    Task<IResponse<string>> Handle(UpdatePostRequest request, CancellationToken cancellationToken);
 }

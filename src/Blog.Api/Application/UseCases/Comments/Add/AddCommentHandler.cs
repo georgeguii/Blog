@@ -9,7 +9,7 @@ namespace Blog.Api.Application.UseCases.Comments.Add;
 
 public class AddCommentHandler(IUnitOfWork unitOfWork, ICommentRepository repository) : IAddCommentHandler
 {
-    public async Task<IResponse> Handle(AddCommentRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<AddCommentResponse>> Handle(AddCommentRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -17,7 +17,7 @@ public class AddCommentHandler(IUnitOfWork unitOfWork, ICommentRepository reposi
             return await CreatePost(request, cancellationToken);
         
         
-        var response = new Response<string>(
+        var response = new Response<AddCommentResponse>(
             HttpStatusCode.BadRequest,
             "Requisição inválida",
             requestValidated.ToDictionary());
@@ -25,7 +25,7 @@ public class AddCommentHandler(IUnitOfWork unitOfWork, ICommentRepository reposi
 
     }
 
-    private async Task<IResponse> CreatePost(AddCommentRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<AddCommentResponse>> CreatePost(AddCommentRequest request, CancellationToken cancellationToken)
     {
         try
         {

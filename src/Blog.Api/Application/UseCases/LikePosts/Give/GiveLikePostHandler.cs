@@ -9,7 +9,7 @@ namespace Blog.Api.Application.UseCases.LikePosts.Give;
 
 public class GiveLikePostHandler(IUnitOfWork unitOfWork, ILikeRepository repository) : IGiveLikePostHandler
 {
-    public async Task<IResponse> Handle(GiveLikePostRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(GiveLikePostRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -25,7 +25,7 @@ public class GiveLikePostHandler(IUnitOfWork unitOfWork, ILikeRepository reposit
         return await GiveLike(request, cancellationToken);
     }
 
-    private async Task<IResponse> GiveLike(GiveLikePostRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> GiveLike(GiveLikePostRequest request, CancellationToken cancellationToken)
     {
         try
         {

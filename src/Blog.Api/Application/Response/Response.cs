@@ -3,7 +3,7 @@ using Blog.Api.Domain.Interfaces;
 
 namespace Blog.Api.Application.Response;
 
-public class Response<TData> : IResponse where TData : class
+public class Response<TData> : IResponse<TData> where TData : class
 {
     public Response()
     {

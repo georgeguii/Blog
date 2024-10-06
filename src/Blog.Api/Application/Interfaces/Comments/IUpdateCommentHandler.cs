@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.Comments;
 
 public interface IUpdateCommentHandler
 {
-    Task<IResponse> Handle(UpdateCommentRequest request, CancellationToken cancellationToken);
+    Task<IResponse<string>> Handle(UpdateCommentRequest request, CancellationToken cancellationToken);
 }

@@ -8,7 +8,7 @@ namespace Blog.Api.Application.UseCases.Users.DisableAccount;
 
 public class DisableUserHandler(IUnitOfWork unitOfWork, IUserRepository repository) : IDisableUserHandler
 {
-    public async Task<IResponse> Handle(DisableUserRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(DisableUserRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -23,7 +23,7 @@ public class DisableUserHandler(IUnitOfWork unitOfWork, IUserRepository reposito
         return await DisableUser(request, cancellationToken);
     }
 
-    private async Task<IResponse> DisableUser(DisableUserRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> DisableUser(DisableUserRequest request, CancellationToken cancellationToken)
     {
         try
         {

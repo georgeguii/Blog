@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.Users;
 
 public interface IDisableUserHandler
 {
-    Task<IResponse> Handle(DisableUserRequest request, CancellationToken cancellationToken);
+    Task<IResponse<string>> Handle(DisableUserRequest request, CancellationToken cancellationToken);
 }

@@ -5,5 +5,5 @@ namespace Blog.Api.Application.Interfaces.LikesPosts;
 
 public interface IRemoveLikePostHandler
 {
-    Task<IResponse> Handle(RemoveLikePostRequest request, CancellationToken cancellationToken);
+    Task<IResponse<string>> Handle(RemoveLikePostRequest request, CancellationToken cancellationToken);
 }

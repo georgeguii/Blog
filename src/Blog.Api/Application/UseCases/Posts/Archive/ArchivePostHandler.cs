@@ -8,7 +8,7 @@ namespace Blog.Api.Application.UseCases.Posts.Archive;
 
 public class ArchivePostHandler(IUnitOfWork unitOfWork, IPostRepository repository) : IArchivePostHandler
 {
-    public async Task<IResponse> Handle(ArchivePostRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<string>> Handle(ArchivePostRequest request, CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
@@ -24,7 +24,7 @@ public class ArchivePostHandler(IUnitOfWork unitOfWork, IPostRepository reposito
         return await ArchivePost(request, cancellationToken);
     }
     
-    private async Task<IResponse> ArchivePost(ArchivePostRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<string>> ArchivePost(ArchivePostRequest request, CancellationToken cancellationToken)
     {
         try
         {
