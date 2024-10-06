@@ -5,6 +5,8 @@ namespace Blog.Api.Domain.Interfaces.Repositories;
 public interface IPostRepository
 {
     Task<IEnumerable<Post>> GetManyAsync(int? page = null, int? pageSize = null);
+    
+    Task<Post?> GetOneAsync(Guid postId);
     Task<Post?> GetOneAsync(Guid postId, Guid userId);
     Task<int> CountCommentsAsync(Guid id);
     Task CreateAsync(Post post, CancellationToken cancellationToken = default);

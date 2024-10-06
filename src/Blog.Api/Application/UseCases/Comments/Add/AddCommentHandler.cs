@@ -7,34 +7,50 @@ using Blog.Api.Domain.Interfaces.Repositories;
 
 namespace Blog.Api.Application.UseCases.Comments.Add;
 
-public class AddCommentHandler(IUnitOfWork unitOfWork, ICommentRepository repository) : IAddCommentHandler
+public class AddCommentHandler(
+    IUnitOfWork unitOfWork,
+    ICommentRepository commentRepository,
+    IPostRepository postRepository) : IAddCommentHandler
 {
-    public async Task<IResponse<AddCommentResponse>> Handle(AddCommentRequest request, CancellationToken cancellationToken)
+    public async Task<IResponse<AddCommentResponse>> Handle(AddCommentRequest request,
+        CancellationToken cancellationToken)
     {
         var requestValidated = request.Validate();
 
-        if (requestValidated.IsValid)
-            return await CreatePost(request, cancellationToken);
+        if (!requestValidated.IsValid)
+        {
+            var response = new Response<AddCommentResponse>(
+                HttpStatusCode.BadRequest,
+                "Requisição inválida",
+                requestValidated.ToDictionary());
+            return response;
+        }
         
-        
-        var response = new Response<AddCommentResponse>(
-            HttpStatusCode.BadRequest,
-            "Requisição inválida",
-            requestValidated.ToDictionary());
-        return response;
+        var post = await postRepository.GetOneAsync(request.PostId);
+        if (post is null)
+        {
+            var response = new Response<AddCommentResponse>(
+                HttpStatusCode.NotFound,
+                "Falha ao encontrar o post",
+                null);
+            return response;
+        }
 
+        return await CreateComment(request, post, cancellationToken);
     }
 
-    private async Task<IResponse<AddCommentResponse>> CreatePost(AddCommentRequest request, CancellationToken cancellationToken)
+    private async Task<IResponse<AddCommentResponse>> CreateComment(AddCommentRequest request, Post post,
+        CancellationToken cancellationToken)
     {
         try
         {
-            var comment = new Comment(
-                request.Description
-            );
+            var comment = new Comment(request.Description);
+            post.AddComment(comment);
 
             unitOfWork.BeginTransaction();
-            await repository.CreateAsync(comment, cancellationToken);
+            await commentRepository.CreateAsync(comment, cancellationToken);
+            await postRepository.UpdateAsync(post);
+            
             await unitOfWork.CommitAsync(cancellationToken);
 
             return new Response<AddCommentResponse>(

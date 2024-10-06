@@ -5,9 +5,15 @@ namespace Blog.Api.Application.UseCases.Posts.Delete;
 
 public class DeletePostRequest
 {
-    public Guid PostId { get; set; }
-    public Guid UserId { get; set; }
-    
+    public Guid PostId { get;}
+    public Guid UserId { get; }
+
+    public DeletePostRequest(Guid postId, Guid userId)
+    {
+        PostId = postId;
+        UserId = userId;
+    }
+
     public ValidationResult Validate()
     {
         var validator = new DeletePostValidator();

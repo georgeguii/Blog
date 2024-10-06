@@ -19,6 +19,11 @@ public class PostRepository(BlogContext context) : IPostRepository
 
         return await query.ToListAsync();
     }
+    
+    public async Task<Post?> GetOneAsync(Guid postId)
+    {
+        return await context.Posts.FirstOrDefaultAsync(p => p.Id == postId);
+    }
 
     public async Task<Post?> GetOneAsync(Guid postId, Guid userId)
     {

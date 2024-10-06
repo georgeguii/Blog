@@ -16,7 +16,6 @@ public class UserController(
 {
 
     [HttpPost]
-    [Route("create")]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request,
         CancellationToken cancellationToken)
     {
@@ -31,7 +30,7 @@ public class UserController(
         };
     }
 
-    [HttpPost]
+    [HttpPut]
     [Route("disable")]
     public async Task<IActionResult> DisableUser([FromBody] DisableUserRequest request,
         CancellationToken cancellationToken)
@@ -47,7 +46,6 @@ public class UserController(
     }
 
     [HttpPut]
-    [Route("update-infos")]
     public async Task<IActionResult> UpdateUserInfos([FromBody] UpdateUserRequest request,
         CancellationToken cancellationToken)
     {
